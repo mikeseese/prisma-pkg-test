@@ -1,0 +1,32 @@
+{
+  "name": "prisma-pkg-test",
+  "packageManager": "yarn@1.22.19",
+  "license": "MIT",
+  "bin": "lib/index.js",
+  "engines": {
+    "node": "^18.0.0"
+  },
+  "scripts": {
+    "postinstall": "yarn pkg",
+    "build": "tsc -p .",
+    "generate": "prisma generate && node hack.js",
+    "pkg": "yarn generate && yarn build && pkg .",
+    "test": "./dist/prisma-pkg-test.exe && echo PASSED || echo FAILED"
+  },
+  "devDependencies": {
+    "@types/node": "^18.10.4",
+    "fs-extra": "^11.2.0",
+    "pkg": "^5.8.1",
+    "prisma": "^5.7.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.7.0"
+  },
+  "pkg": {
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": "dist"
+  }
+}
