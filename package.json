@@ -7,11 +7,17 @@
     "node": "^18.0.0"
   },
   "scripts": {
-    "postinstall": "yarn pkg",
+    "postinstall": "yarn generate && yarn build && yarn pkg && yarn test",
     "build": "tsc -p .",
-    "generate": "prisma generate && node hack.js",
-    "pkg": "yarn generate && yarn build && pkg .",
-    "test": "./dist/prisma-pkg-test.exe && echo PASSED || echo FAILED"
+    "generate": "yarn generate:normal && yarn generate:custom",
+    "generate:normal": "prisma generate --schema ./prisma-normal/schema.prisma",
+    "generate:custom": "prisma generate --schema ./prisma-custom/schema.prisma",
+    "pkg": "yarn build && yarn pkg:normal && yarn pkg:custom",
+    "pkg:normal": "pkg -c ./package.json lib/normal.js --output=dist/normal",
+    "pkg:custom": "pkg --public-packages '*' -c ./package.json lib/custom.js --output=dist/custom",
+    "test": "yarn test:normal && yarn test:custom",
+    "test:normal": "./dist/normal.exe && echo NORMAL PASSED || echo NORMAL FAILED",
+    "test:custom": "./dist/custom.exe && echo CUSTOM PASSED || echo CUSTOM FAILED"
   },
   "devDependencies": {
     "@types/node": "^18.10.4",
@@ -24,9 +30,12 @@
     "@prisma/client": "^5.7.0"
   },
   "pkg": {
+    "assets": [
+      "node_modules/.prisma/client/index.js",
+      "node_modules/my-custom-prisma/index.js"
+    ],
     "targets": [
       "node18-win-x64"
-    ],
-    "outputPath": "dist"
+    ]
   }
 }
