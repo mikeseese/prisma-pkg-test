@@ -14,7 +14,7 @@
     "generate:custom": "prisma generate --schema ./prisma-custom/schema.prisma",
     "pkg": "yarn build && yarn pkg:normal && yarn pkg:custom",
     "pkg:normal": "pkg -c ./package.json lib/normal.js --output=dist/normal",
-    "pkg:custom": "pkg --public-packages '*' -c ./package.json lib/custom.js --output=dist/custom",
+    "pkg:custom": "pkg -c ./package.json lib/custom.js --output=dist/custom",
     "test": "yarn test:normal && yarn test:custom",
     "test:normal": "./dist/normal.exe && echo NORMAL PASSED || echo NORMAL FAILED",
     "test:custom": "./dist/custom.exe && echo CUSTOM PASSED || echo CUSTOM FAILED"
